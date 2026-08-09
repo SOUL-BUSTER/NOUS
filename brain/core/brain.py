@@ -1,49 +1,65 @@
-from brain.implementations.simple_planner import SimplePlanner
+from brain.skills.registry import SkillRegistry
 from brain.skills.navigate import NavigateSkill
+from brain.skills.speak import SpeakSkill
 
 
 class Brain:
     """Core intelligence system for NOUS."""
 
     def __init__(self):
-        self.planner = SimplePlanner()
-        self.navigate = NavigateSkill()
         self.goal = None
+        self.plan = []
+
+        self.skills = SkillRegistry()
+
+        self.skills.register(NavigateSkill())
+        self.skills.register(SpeakSkill())
 
     def think(self, goal: str):
         self.goal = goal
 
         print(f"[Brain] Thinking about: {goal}")
 
-        plan = self.planner.create_plan(goal)
+        self.plan = [
+            f"Understand goal: {goal}",
+            "Find appropriate skill",
+            "Extract required information",
+            "Execute skill",
+        ]
 
         print("[Brain] Plan:")
-        for step in plan:
+
+        for step in self.plan:
             print(f"- {step}")
 
-        return plan
+        return self.plan
 
     def act(self):
         if not self.goal:
             print("[Brain] No goal.")
-            return
+            return None
 
-        goal = self.goal.lower()
+        skill = self.skills.find_for_goal(self.goal)
 
-        if "go to" in goal:
-            destination = goal.split("go to", 1)[1].strip()
+        if skill is None:
+            print(f"[Brain] No skill found for: {self.goal}")
+            return None
 
-            result = self.navigate.execute(
-                destination=destination
-            )
+        print(f"[Brain] Selected skill: {skill.name}")
 
-            print(f"[Brain] {result}")
+        arguments = skill.extract_arguments(self.goal)
 
-            return result
+        print(f"[Brain] Arguments: {arguments}")
 
-        print("[Brain] I don't know how to perform this task yet.")
+        result = skill.execute(**arguments)
+
+        print(f"[Brain] Result: {result}")
+
+        return result
 
     def status(self):
         return {
-            "goal": self.goal
+            "goal": self.goal,
+            "plan": self.plan,
+            "skills": self.skills.list(),
         }

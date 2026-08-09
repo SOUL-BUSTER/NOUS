@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class Skill(ABC):
@@ -7,10 +8,16 @@ class Skill(ABC):
     @property
     @abstractmethod
     def name(self) -> str:
-        """Return the skill name."""
+        pass
+
+    @abstractmethod
+    def can_handle(self, goal: str) -> bool:
+        pass
+
+    @abstractmethod
+    def extract_arguments(self, goal: str) -> dict[str, Any]:
         pass
 
     @abstractmethod
     def execute(self, **kwargs):
-        """Execute the skill."""
         pass

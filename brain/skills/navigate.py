@@ -8,6 +8,16 @@ class NavigateSkill(Skill):
     def name(self) -> str:
         return "navigate"
 
+    def can_handle(self, goal: str) -> bool:
+        return goal.lower().startswith("go to ")
+
+    def extract_arguments(self, goal: str) -> dict:
+        destination = goal.lower().replace("go to ", "", 1).strip()
+
+        return {
+            "destination": destination
+        }
+
     def execute(self, **kwargs):
         destination = kwargs.get("destination")
 
