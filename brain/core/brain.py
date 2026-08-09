@@ -2,6 +2,7 @@ from brain.skills.registry import SkillRegistry
 from brain.skills.navigate import NavigateSkill
 from brain.skills.speak import SpeakSkill
 from brain.skills.pick_up import PickUpSkill
+from brain.core.action import Action
 
 
 class Brain:
@@ -54,7 +55,10 @@ class Brain:
 
         print(f"[Brain] Arguments: {arguments}")
 
-        action = skill.execute(**arguments)
+        action = Action(
+            name=skill.name,
+            parameters=arguments,
+        )
 
         self.last_action = action
 

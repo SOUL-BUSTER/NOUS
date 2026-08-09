@@ -1,5 +1,4 @@
 from .base import Skill
-from brain.state import Action
 
 
 class NavigateSkill(Skill):
@@ -10,27 +9,20 @@ class NavigateSkill(Skill):
         return "navigate"
 
     def can_handle(self, goal: str) -> bool:
-        return goal.lower().startswith("go to ")
+        return goal.lower().startswith("go to")
 
     def extract_arguments(self, goal: str) -> dict:
-        destination = goal[6:].strip()
+        destination = goal[5:].strip()
 
-        return {
-            "destination": destination
-        }
+        if destination.lower().startswith("the "):
+            destination = destination[4:]
 
-    def execute(self, **kwargs) -> Action:
+        return {"destination": destination}
+
+    def execute(self, **kwargs):
         destination = kwargs.get("destination")
 
         if not destination:
-            return Action(
-                name="navigate",
-                parameters={}
-            )
+            return "Navigation failed: no destination provided."
 
-        return Action(
-            name="navigate",
-            parameters={
-                "destination": destination
-            }
-        )
+        return f"Navigating to {destination}"

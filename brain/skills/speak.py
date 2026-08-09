@@ -1,5 +1,4 @@
 from .base import Skill
-from brain.state import Action
 
 
 class SpeakSkill(Skill):
@@ -10,26 +9,20 @@ class SpeakSkill(Skill):
         return "speak"
 
     def can_handle(self, goal: str) -> bool:
-        return goal.lower().startswith(("say ", "speak "))
+        return goal.lower().startswith("say")
 
     def extract_arguments(self, goal: str) -> dict:
-        text = goal
+        text = goal[3:].strip()
 
-        if text.lower().startswith("say "):
-            text = text[4:]
-        elif text.lower().startswith("speak "):
-            text = text[6:]
+        if text.lower().startswith("to "):
+            text = text[3:].strip()
 
-        return {
-            "text": text.strip()
-        }
+        return {"text": text}
 
-    def execute(self, **kwargs) -> Action:
+    def execute(self, **kwargs):
         text = kwargs.get("text")
 
-        return Action(
-            name="speak",
-            parameters={
-                "text": text or ""
-            }
-        )
+        if not text:
+            return "Speech failed: no text provided."
+
+        return f"Speaking: {text}"
