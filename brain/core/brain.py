@@ -1,6 +1,7 @@
 from brain.skills.registry import SkillRegistry
 from brain.skills.navigate import NavigateSkill
 from brain.skills.speak import SpeakSkill
+from brain.skills.pick_up import PickUpSkill
 
 
 class Brain:
@@ -14,6 +15,7 @@ class Brain:
 
         self.skills.register(NavigateSkill())
         self.skills.register(SpeakSkill())
+        self.skills.register(PickUpSkill())
 
     def think(self, goal: str):
         self.goal = goal
