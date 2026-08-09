@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+from brain.state import Action
+
 
 class Skill(ABC):
     """Base class for all NOUS skills."""
@@ -19,5 +21,5 @@ class Skill(ABC):
         pass
 
     @abstractmethod
-    def execute(self, **kwargs):
+    def execute(self, **kwargs) -> Action:
         pass

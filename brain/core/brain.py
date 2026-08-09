@@ -10,6 +10,7 @@ class Brain:
     def __init__(self):
         self.goal = None
         self.plan = []
+        self.last_action = None
 
         self.skills = SkillRegistry()
 
@@ -26,7 +27,7 @@ class Brain:
             f"Understand goal: {goal}",
             "Find appropriate skill",
             "Extract required information",
-            "Execute skill",
+            "Create structured action",
         ]
 
         print("[Brain] Plan:")
@@ -53,15 +54,18 @@ class Brain:
 
         print(f"[Brain] Arguments: {arguments}")
 
-        result = skill.execute(**arguments)
+        action = skill.execute(**arguments)
 
-        print(f"[Brain] Result: {result}")
+        self.last_action = action
 
-        return result
+        print(f"[Brain] Action: {action}")
+
+        return action
 
     def status(self):
         return {
             "goal": self.goal,
             "plan": self.plan,
             "skills": self.skills.list(),
+            "last_action": self.last_action,
         }

@@ -1,4 +1,5 @@
 from .base import Skill
+from brain.state import Action
 
 
 class SpeakSkill(Skill):
@@ -23,10 +24,12 @@ class SpeakSkill(Skill):
             "text": text.strip()
         }
 
-    def execute(self, **kwargs):
+    def execute(self, **kwargs) -> Action:
         text = kwargs.get("text")
 
-        if not text:
-            return "No text provided."
-
-        return f"Speaking: {text}"
+        return Action(
+            name="speak",
+            parameters={
+                "text": text or ""
+            }
+        )

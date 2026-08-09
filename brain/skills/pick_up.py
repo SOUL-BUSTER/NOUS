@@ -1,4 +1,5 @@
 from .base import Skill
+from brain.state import Action
 
 
 class PickUpSkill(Skill):
@@ -25,10 +26,12 @@ class PickUpSkill(Skill):
             "object": object_name
         }
 
-    def execute(self, **kwargs):
+    def execute(self, **kwargs) -> Action:
         object_name = kwargs.get("object")
 
-        if not object_name:
-            return "No object provided."
-
-        return f"Picking up {object_name}"
+        return Action(
+            name="pick_up",
+            parameters={
+                "object": object_name or ""
+            }
+        )
