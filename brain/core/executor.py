@@ -55,6 +55,9 @@ class Executor:
         if action.name == "status":
             return self._format_status()
 
+        if action.name == "help":
+            return self._format_help()
+
         return f"Unknown action: {action.name}"
 
     def execute_all(self, actions):
@@ -79,6 +82,7 @@ class Executor:
             "recall": "key",
             "forget": "key",
             "status": None,
+            "help": None,
         }
 
         if action.name not in required_parameters:
@@ -111,4 +115,11 @@ class Executor:
         return (
             f"Goal: {status['goal']} | Skills: {skills} | "
             f"Last action: {last_action_name}"
+        )
+
+    def _format_help(self):
+        return (
+            "Commands: Go to kitchen; Pick up the cup; Say hello; "
+            "Remember my name is Sotsai; What is my name?; Forget my name; "
+            "Go to kitchen and pick up the cup; Status; Help"
         )
