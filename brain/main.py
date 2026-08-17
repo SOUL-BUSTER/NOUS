@@ -1,10 +1,34 @@
+import os
+
 from brain.core.brain import Brain
 from brain.core.executor import Executor
+from brain.implementations.dummy_hardware import DummyHardware
+from brain.implementations.serial_hardware import SerialHardware
+
+
+def create_hardware():
+    mode = os.getenv("NOUS_HARDWARE", "dummy").lower()
+
+    if mode == "dummy":
+        return DummyHardware()
+
+    if mode == "serial":
+        port = os.getenv("NOUS_SERIAL_PORT")
+        if not port:
+            raise RuntimeError("Set NOUS_SERIAL_PORT before using serial hardware.")
+
+        return SerialHardware(port)
+
+    raise RuntimeError("NOUS_HARDWARE must be 'dummy' or 'serial'.")
 
 
 def main():
     brain = Brain()
-    executor = Executor(brain.skills, status_provider=brain.status)
+    executor = Executor(
+        brain.skills,
+        hardware=create_hardware(),
+        status_provider=brain.status,
+    )
 
     print("NOUS is ready.")
     print("Try: Go to kitchen | Please go to the kitchen | Go to kitchen and pick up the cup")
