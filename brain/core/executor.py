@@ -1,22 +1,24 @@
-class Executor:
-    """Executes structured NOUS actions."""
+from brain.implementations.dummy_hardware import DummyHardware
 
-    def __init__(self, skills):
+
+class Executor:
+    """Executes structured NOUS actions on simulated hardware."""
+
+    def __init__(self, skills, hardware=None):
         self.skills = skills
+        self.hardware = hardware or DummyHardware()
 
     def execute(self, action):
         if action is None:
             return "No action provided."
 
-        skill = self.skills.get(action.name)
+        if action.name == "navigate":
+            return self.hardware.move_to(action.parameters["destination"])
 
-        if skill is None:
-            return f"Unknown skill: {action.name}"
+        if action.name == "speak":
+            return self.hardware.speak(action.parameters["text"])
 
-        print(f"[Executor] Skill: {action.name}")
+        if action.name == "pick_up":
+            return self.hardware.pick_up(action.parameters["object"])
 
-        result = skill.execute(**action.parameters)
-
-        print(f"[Executor] Result: {result}")
-
-        return result
+        return f"Unknown action: {action.name}"
