@@ -14,6 +14,19 @@ print("Result:", executor.execute(action))
 
 print()
 
+print("=== TEST MEMORY ===")
+brain.think("Remember my name is Sotsai")
+action = brain.act()
+print("Action:", action)
+print("Result:", executor.execute(action))
+
+brain.think("What is my name?")
+action = brain.act()
+print("Action:", action)
+print("Result:", executor.execute(action))
+
+print()
+
 print("=== TEST SPEECH ===")
 brain.think("Say hello to Sotsai")
 action = brain.act()
