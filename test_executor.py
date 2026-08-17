@@ -3,6 +3,7 @@ from tempfile import TemporaryDirectory
 
 from brain.core.brain import Brain
 from brain.core.executor import Executor
+from brain.core.action import Action
 from brain.implementations.simple_memory import SimpleMemory
 
 
@@ -22,6 +23,15 @@ print("=== TEST MULTI-STEP COMMAND ===")
 brain.think("Go to kitchen and pick up the cup")
 actions = brain.act_all()
 print("Actions:", actions)
+print("Results:", executor.execute_all(actions))
+
+print()
+
+print("=== TEST SAFE FAILURE ===")
+actions = [
+    Action(name="navigate", parameters={}),
+    Action(name="pick_up", parameters={"object": "cup"}),
+]
 print("Results:", executor.execute_all(actions))
 
 print()

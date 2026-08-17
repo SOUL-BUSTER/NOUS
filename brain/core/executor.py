@@ -14,6 +14,10 @@ class Executor:
         if action is None:
             return "No action provided."
 
+        validation_error = self._validate_action(action)
+        if validation_error:
+            return validation_error
+
         if action.name == "navigate":
             return self.hardware.move_to(action.parameters["destination"])
 
@@ -51,4 +55,38 @@ class Executor:
 
     def execute_all(self, actions):
         """Execute actions in the order provided by the Brain."""
-        return [self.execute(action) for action in actions]
+        results = []
+
+        for action in actions:
+            result = self.execute(action)
+            results.append(result)
+
+            if result == "No action provided." or result.startswith(("Invalid action:", "Unknown action:")):
+                break
+
+        return results
+
+    def _validate_action(self, action):
+        required_parameters = {
+            "navigate": "destination",
+            "speak": "text",
+            "pick_up": "object",
+            "remember": "key",
+            "recall": "key",
+            "forget": "key",
+        }
+
+        parameter_name = required_parameters.get(action.name)
+        if parameter_name is None:
+            return f"Unknown action: {action.name}"
+
+        value = action.parameters.get(parameter_name)
+        if not isinstance(value, str) or not value.strip():
+            return f"Invalid action: {action.name} requires a {parameter_name}."
+
+        if action.name == "remember":
+            value = action.parameters.get("value")
+            if not isinstance(value, str) or not value.strip():
+                return "Invalid action: remember requires a value."
+
+        return None
