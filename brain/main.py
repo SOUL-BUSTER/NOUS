@@ -7,7 +7,7 @@ def main():
     executor = Executor(brain.skills)
 
     print("NOUS is ready.")
-    print("Try: Go to kitchen | Please go to the kitchen | Could you pick up a cup?")
+    print("Try: Go to kitchen | Please go to the kitchen | Go to kitchen and pick up the cup")
     print("Memory: Remember my name is Sotsai | What is my name? | Forget my name")
     print("Type 'exit' to stop.")
 
@@ -22,10 +22,11 @@ def main():
             continue
 
         brain.think(goal)
-        action = brain.act()
-        result = executor.execute(action)
+        actions = brain.act_all()
+        results = executor.execute_all(actions)
 
-        print(f"NOUS: {result}")
+        for result in results:
+            print(f"NOUS: {result}")
 
 
 if __name__ == "__main__":

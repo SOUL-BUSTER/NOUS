@@ -48,3 +48,7 @@ class Executor:
             return f"I've forgotten your {key}."
 
         return f"Unknown action: {action.name}"
+
+    def execute_all(self, actions):
+        """Execute actions in the order provided by the Brain."""
+        return [self.execute(action) for action in actions]

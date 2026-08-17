@@ -18,6 +18,14 @@ print("Result:", executor.execute(action))
 
 print()
 
+print("=== TEST MULTI-STEP COMMAND ===")
+brain.think("Go to kitchen and pick up the cup")
+actions = brain.act_all()
+print("Actions:", actions)
+print("Results:", executor.execute_all(actions))
+
+print()
+
 print("=== TEST FLEXIBLE COMMANDS ===")
 for goal in [
     "Please go to the kitchen",

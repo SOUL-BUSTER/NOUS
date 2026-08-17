@@ -1,3 +1,5 @@
+import re
+
 from brain.skills.registry import SkillRegistry
 from brain.skills.navigate import NavigateSkill
 from brain.skills.speak import SpeakSkill
@@ -49,15 +51,34 @@ class Brain:
             print("[Brain] No goal.")
             return None
 
-        skill = self.skills.find_for_goal(self.goal)
+        return self._create_action(self.goal)
+
+    def act_all(self):
+        """Create ordered actions for a goal containing simple 'and' steps."""
+        if not self.goal:
+            print("[Brain] No goal.")
+            return []
+
+        goals = re.split(r"\s+\band\b\s+", self.goal, flags=re.IGNORECASE)
+        actions = []
+
+        for goal in goals:
+            action = self._create_action(goal)
+            if action is not None:
+                actions.append(action)
+
+        return actions
+
+    def _create_action(self, goal: str):
+        skill = self.skills.find_for_goal(goal)
 
         if skill is None:
-            print(f"[Brain] No skill found for: {self.goal}")
+            print(f"[Brain] No skill found for: {goal}")
             return None
 
         print(f"[Brain] Selected skill: {skill.name}")
 
-        arguments = skill.extract_arguments(self.goal)
+        arguments = skill.extract_arguments(goal)
 
         print(f"[Brain] Arguments: {arguments}")
 
