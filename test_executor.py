@@ -1,8 +1,10 @@
 from brain.core.brain import Brain
 from brain.core.executor import Executor
 
+
 brain = Brain()
-executor = Executor()
+executor = Executor(brain.skills)
+
 
 print("=== TEST NAVIGATION ===")
 brain.think("Go to kitchen")

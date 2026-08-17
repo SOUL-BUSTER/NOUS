@@ -1,27 +1,22 @@
-from brain.skills.navigate import NavigateSkill
-from brain.skills.speak import SpeakSkill
-from brain.skills.pick_up import PickUpSkill
-
-
 class Executor:
-    """Execute structured NOUS actions."""
+    """Executes structured NOUS actions."""
 
-    def __init__(self):
-        self.skills = {
-            "navigate": NavigateSkill(),
-            "speak": SpeakSkill(),
-            "pick_up": PickUpSkill(),
-        }
+    def __init__(self, skills):
+        self.skills = skills
 
     def execute(self, action):
+        if action is None:
+            return "No action provided."
+
         skill = self.skills.get(action.name)
 
         if skill is None:
             return f"Unknown skill: {action.name}"
 
+        print(f"[Executor] Skill: {action.name}")
+
         result = skill.execute(**action.parameters)
 
-        print(f"[Executor] Skill: {action.name}")
         print(f"[Executor] Result: {result}")
 
         return result
