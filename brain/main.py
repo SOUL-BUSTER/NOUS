@@ -9,7 +9,7 @@ def main():
     print("NOUS is ready.")
     print("Try: Go to kitchen | Please go to the kitchen | Go to kitchen and pick up the cup")
     print("Memory: Remember my name is Sotsai | What is my name? | Forget my name")
-    print("System: Status | Help")
+    print("System: Status | Help | History")
     print("Type 'exit' to stop.")
 
     while True:

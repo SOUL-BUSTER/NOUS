@@ -19,6 +19,14 @@ print("Result:", executor.execute(action))
 
 print()
 
+print("=== TEST HISTORY ===")
+brain.think("History")
+action = brain.act()
+print("Action:", action)
+print("Result:", executor.execute(action))
+
+print()
+
 print("=== TEST HELP ===")
 brain.think("Help")
 action = brain.act()

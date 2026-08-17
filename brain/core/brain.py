@@ -7,6 +7,7 @@ from brain.skills.status import StatusSkill
 from brain.skills.pick_up import PickUpSkill
 from brain.skills.forget import ForgetSkill
 from brain.skills.help import HelpSkill
+from brain.skills.history import HistorySkill
 from brain.skills.recall import RecallSkill
 from brain.skills.remember import RememberSkill
 from brain.core.action import Action
@@ -28,6 +29,7 @@ class Brain:
         self.skills.register(PickUpSkill())
         self.skills.register(ForgetSkill())
         self.skills.register(HelpSkill())
+        self.skills.register(HistorySkill())
         self.skills.register(RememberSkill())
         self.skills.register(RecallSkill())
 
