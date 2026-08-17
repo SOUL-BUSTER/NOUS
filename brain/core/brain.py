@@ -2,6 +2,7 @@ from brain.skills.registry import SkillRegistry
 from brain.skills.navigate import NavigateSkill
 from brain.skills.speak import SpeakSkill
 from brain.skills.pick_up import PickUpSkill
+from brain.skills.forget import ForgetSkill
 from brain.skills.recall import RecallSkill
 from brain.skills.remember import RememberSkill
 from brain.core.action import Action
@@ -20,6 +21,7 @@ class Brain:
         self.skills.register(NavigateSkill())
         self.skills.register(SpeakSkill())
         self.skills.register(PickUpSkill())
+        self.skills.register(ForgetSkill())
         self.skills.register(RememberSkill())
         self.skills.register(RecallSkill())
 

@@ -8,7 +8,7 @@ def main():
 
     print("NOUS is ready.")
     print("Try: Go to kitchen | Say hello | Pick up the cup")
-    print("Memory: Remember my name is Sotsai | What is my name?")
+    print("Memory: Remember my name is Sotsai | What is my name? | Forget my name")
     print("Type 'exit' to stop.")
 
     while True:

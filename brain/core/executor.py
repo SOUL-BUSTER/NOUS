@@ -38,4 +38,13 @@ class Executor:
 
             return f"Your {key} is {value}."
 
+        if action.name == "forget":
+            key = action.parameters["key"]
+
+            if self.memory.recall(key) is None:
+                return f"I don't know your {key} yet."
+
+            self.memory.forget(key)
+            return f"I've forgotten your {key}."
+
         return f"Unknown action: {action.name}"

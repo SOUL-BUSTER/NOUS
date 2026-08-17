@@ -1,5 +1,9 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
 from brain.core.brain import Brain
 from brain.core.executor import Executor
+from brain.implementations.simple_memory import SimpleMemory
 
 
 brain = Brain()
@@ -15,16 +19,30 @@ print("Result:", executor.execute(action))
 print()
 
 print("=== TEST MEMORY ===")
-brain.think("Remember my name is Sotsai")
-action = brain.act()
-print("Action:", action)
-print("Result:", executor.execute(action))
+with TemporaryDirectory() as temp_dir:
+    memory_path = Path(temp_dir) / "nous_memory.json"
+    memory_executor = Executor(brain.skills, memory=SimpleMemory(memory_path))
 
-brain.think("What is my name?")
-action = brain.act()
-print("Action:", action)
-print("Result:", executor.execute(action))
-print("Result after restart:", Executor(brain.skills).execute(action))
+    brain.think("Remember my name is Sotsai")
+    action = brain.act()
+    print("Action:", action)
+    print("Result:", memory_executor.execute(action))
+
+    brain.think("What is my name?")
+    action = brain.act()
+    print("Action:", action)
+    print("Result:", memory_executor.execute(action))
+    print("Result after restart:", Executor(brain.skills, memory=SimpleMemory(memory_path)).execute(action))
+
+    brain.think("Forget my name")
+    action = brain.act()
+    print("Action:", action)
+    print("Result:", memory_executor.execute(action))
+
+    brain.think("What is my name?")
+    action = brain.act()
+    print("Action:", action)
+    print("Result:", memory_executor.execute(action))
 
 print()
 
