@@ -8,11 +8,19 @@ from brain.implementations.simple_memory import SimpleMemory
 
 
 brain = Brain()
-executor = Executor(brain.skills)
+executor = Executor(brain.skills, status_provider=brain.status)
 
 
 print("=== TEST NAVIGATION ===")
 brain.think("Go to kitchen")
+action = brain.act()
+print("Action:", action)
+print("Result:", executor.execute(action))
+
+print()
+
+print("=== TEST STATUS ===")
+brain.think("Status")
 action = brain.act()
 print("Action:", action)
 print("Result:", executor.execute(action))
