@@ -29,6 +29,9 @@ class Executor:
         if action.name == "pick_up":
             return self._complete(action, self.hardware.pick_up(action.parameters["object"]))
 
+        if action.name == "stop":
+            return self._complete(action, self.hardware.stop())
+
         if action.name == "remember":
             key = action.parameters["key"]
             value = action.parameters["value"]
@@ -88,6 +91,7 @@ class Executor:
             "status": None,
             "help": None,
             "history": None,
+            "stop": None,
         }
 
         if action.name not in required_parameters:
@@ -126,7 +130,7 @@ class Executor:
         return (
             "Commands: Go to kitchen; Pick up the cup; Say hello; "
             "Remember my name is Sotsai; What is my name?; Forget my name; "
-            "Go to kitchen and pick up the cup; Status; Help; History"
+            "Go to kitchen and pick up the cup; Stop; Status; Help; History"
         )
 
     def _complete(self, action, result):
