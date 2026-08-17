@@ -1,18 +1,30 @@
-from core.brain import Brain
+from brain.core.brain import Brain
+from brain.core.executor import Executor
 
 
 def main():
-    nous = Brain()
+    brain = Brain()
+    executor = Executor(brain.skills)
 
-    nous.think("Go to the kitchen")
+    print("NOUS is ready.")
+    print("Try: Go to kitchen | Say hello | Pick up the cup")
+    print("Type 'exit' to stop.")
 
-    nous.remember("owner", "Sotsai")
+    while True:
+        goal = input("\nYou: ").strip()
 
-    print(nous.recall("owner"))
+        if goal.lower() in {"exit", "quit"}:
+            print("NOUS: Goodbye.")
+            break
 
-    nous.act()
+        if not goal:
+            continue
 
-    print(nous.status())
+        brain.think(goal)
+        action = brain.act()
+        result = executor.execute(action)
+
+        print(f"NOUS: {result}")
 
 
 if __name__ == "__main__":
