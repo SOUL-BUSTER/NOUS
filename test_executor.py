@@ -24,6 +24,7 @@ brain.think("What is my name?")
 action = brain.act()
 print("Action:", action)
 print("Result:", executor.execute(action))
+print("Result after restart:", Executor(brain.skills).execute(action))
 
 print()
 

@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+data/nous_memory.json
 *.py[codz]
 *$py.class
 
