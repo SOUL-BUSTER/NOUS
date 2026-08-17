@@ -1,3 +1,5 @@
+import re
+
 from .base import Skill
 
 
@@ -9,13 +11,11 @@ class NavigateSkill(Skill):
         return "navigate"
 
     def can_handle(self, goal: str) -> bool:
-        return goal.lower().startswith("go to")
+        return re.search(r"\bgo to\s+(?:the\s+)?\S", goal, re.IGNORECASE) is not None
 
     def extract_arguments(self, goal: str) -> dict:
-        destination = goal[5:].strip()
-
-        if destination.lower().startswith("the "):
-            destination = destination[4:]
+        match = re.search(r"\bgo to\s+(?:the\s+)?(.+?)[?.!]*\s*$", goal, re.IGNORECASE)
+        destination = match.group(1).strip() if match else ""
 
         return {"destination": destination}
 

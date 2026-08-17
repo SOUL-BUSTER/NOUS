@@ -18,6 +18,19 @@ print("Result:", executor.execute(action))
 
 print()
 
+print("=== TEST FLEXIBLE COMMANDS ===")
+for goal in [
+    "Please go to the kitchen",
+    "Could you pick up a cup?",
+    "Tell Sotsai hello",
+]:
+    brain.think(goal)
+    action = brain.act()
+    print("Action:", action)
+    print("Result:", executor.execute(action))
+
+print()
+
 print("=== TEST MEMORY ===")
 with TemporaryDirectory() as temp_dir:
     memory_path = Path(temp_dir) / "nous_memory.json"

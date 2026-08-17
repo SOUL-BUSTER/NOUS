@@ -1,3 +1,5 @@
+import re
+
 from .base import Skill
 
 
@@ -9,13 +11,20 @@ class SpeakSkill(Skill):
         return "speak"
 
     def can_handle(self, goal: str) -> bool:
-        return goal.lower().startswith("say")
+        can_say = re.search(r"\bsay\s+\S", goal, re.IGNORECASE) is not None
+        can_tell = re.search(r"\btell\s+\S+\s+\S", goal, re.IGNORECASE) is not None
+        return can_say or can_tell
 
     def extract_arguments(self, goal: str) -> dict:
-        text = goal[3:].strip()
+        say_match = re.search(r"\bsay\s+(?:to\s+)?(.+?)[?.!]*\s*$", goal, re.IGNORECASE)
+        tell_match = re.search(r"\btell\s+\S+\s+(.+?)[?.!]*\s*$", goal, re.IGNORECASE)
 
-        if text.lower().startswith("to "):
-            text = text[3:].strip()
+        if say_match:
+            text = say_match.group(1).strip()
+        elif tell_match:
+            text = tell_match.group(1).strip()
+        else:
+            text = ""
 
         return {"text": text}
 

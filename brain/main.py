@@ -7,7 +7,7 @@ def main():
     executor = Executor(brain.skills)
 
     print("NOUS is ready.")
-    print("Try: Go to kitchen | Say hello | Pick up the cup")
+    print("Try: Go to kitchen | Please go to the kitchen | Could you pick up a cup?")
     print("Memory: Remember my name is Sotsai | What is my name? | Forget my name")
     print("Type 'exit' to stop.")
 
